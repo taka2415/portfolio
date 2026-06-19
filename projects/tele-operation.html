@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metaverse Tele-op — Takaharu Tanaka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #161616; --border: #222;
+      --accent: #00c8ff; --accent-dim: rgba(0,200,255,0.12);
+      --text: #e8e8e8; --muted: #666; --sub: #999;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a { color: var(--sub); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+    main { max-width: 760px; margin: 0 auto; padding: 8rem 2rem 6rem; }
+    .project-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 2.5rem; }
+    .meta span { margin-right: 1.2rem; }
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 2.5rem 0; }
+    h2 { font-size: 1.05rem; font-weight: 500; color: var(--text); margin-bottom: 1rem; }
+    p { font-size: 0.9rem; color: var(--sub); line-height: 1.75; margin-bottom: 1rem; }
+    ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+    ul li { font-size: 0.9rem; color: var(--sub); line-height: 1.8; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .tag { font-size: 0.72rem; background: var(--accent-dim); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 3px; }
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; text-align: center; }
+    .stat .value { font-size: 1.3rem; font-weight: 600; color: var(--accent); display: block; }
+    .stat .label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    footer { text-align: center; padding: 2rem; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+<main>
+  <p class="project-tag">Robotics · Extended Reality · WeaverseLab(株)</p>
+  <h1>Metaverse-to-Robot<br/>Tele-operation</h1>
+  <div class="meta">
+    <span>Jun 2024 — Jun 2025</span>
+    <span>Tokyo, Japan</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="value">≤5 ms</span><span class="label">Round-trip latency</span></div>
+    <div class="stat"><span class="value">9-DOF</span><span class="label">Humanoid arm</span></div>
+    <div class="stat"><span class="value">1 Mbaud</span><span class="label">UART speed</span></div>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    Built a real-time tele-operation system linking a virtual avatar in the Resonite metaverse platform
+    to a physical 9 degree-of-freedom humanoid robot arm. The system captures pose data from the avatar
+    and drives the physical robot in real time with minimal latency.
+  </p>
+
+  <div class="divider"></div>
+
+  <h2>Technical Implementation</h2>
+  <ul>
+    <li>Implemented a Python relay that streams commands over OSC ↔ UART at 1,000,000 baud, achieving ≤5 ms round-trip latency between the virtual and physical systems</li>
+    <li>Developed real-time inverse kinematic mapping that converts avatar pose data to robot joint angles</li>
+    <li>Redesigned the open-source 9-DOF humanoid arm in Fusion 360 for improved mechanical compatibility with the tele-operation use case</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Stack</h2>
+  <div class="tag-row">
+    <span class="tag">Python</span>
+    <span class="tag">OSC</span>
+    <span class="tag">UART</span>
+    <span class="tag">Inverse Kinematics</span>
+    <span class="tag">Fusion 360</span>
+    <span class="tag">Resonite</span>
+    <span class="tag">Robotics</span>
+    <span class="tag">Mixed Reality</span>
+  </div>
+</main>
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>

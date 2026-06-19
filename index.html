@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Takaharu Tanaka — ECE @ UW</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #222;
+      --accent: #00c8ff;
+      --accent-dim: rgba(0, 200, 255, 0.12);
+      --text: #e8e8e8;
+      --muted: #666;
+      --sub: #999;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13, 13, 13, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .logo {
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav ul a {
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* FEATURED CARD */
+    .card-featured {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      margin-bottom: 1.2rem;
+      transition: border-color 0.2s;
+    }
+
+    .card-featured:hover { border-color: var(--accent); }
+
+    .card-featured h3 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .card-featured .card-meta {
+      font-size: 0.78rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    .card-featured p {
+      font-size: 0.85rem;
+      color: var(--sub);
+      line-height: 1.7;
+      margin-bottom: 1.4rem;
+    }
+
+    /* SPECS TABLE */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .specs-table thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .specs-table th {
+      text-align: left;
+      padding: 0.45rem 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .specs-table td {
+      padding: 0.45rem 0.8rem;
+      color: var(--sub);
+      border-bottom: 1px solid rgba(34,34,34,0.6);
+    }
+
+    .specs-table td:last-child {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .specs-table tr:last-child td { border-bottom: none; }
+
+    /* SECTIONS */
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 8rem;
+    }
+
+    .hero-tag {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--sub);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--sub);
+    }
+
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTION HEADINGS */
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 2.5rem;
+      color: var(--text);
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 3rem;
+    }
+
+/* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0 2rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-item:last-child { border-bottom: none; }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding-top: 0.15rem;
+      line-height: 1.5;
+    }
+
+    .timeline-content h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-content .org {
+      font-size: 0.82rem;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .timeline-content p {
+      font-size: 0.85rem;
+      color: var(--sub);
+      line-height: 1.65;
+    }
+
+    .timeline-content ul {
+      margin-top: 0.4rem;
+      padding-left: 1rem;
+      font-size: 0.85rem;
+      color: var(--sub);
+      line-height: 1.8;
+    }
+
+    /* PROJECTS (cards) */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .card h3 {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .card h3 .arrow {
+      color: var(--muted);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+
+    .card:hover h3 .arrow { color: var(--accent); }
+
+    .card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.2rem; }
+
+    .tag {
+      font-size: 0.68rem;
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      letter-spacing: 0.03em;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .contact-item .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .contact-item a {
+      color: var(--sub);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .contact-item a:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { gap: 1.2rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="#hero">TT</a>
+    <ul>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+<li><a href="#contact">Contact</a></li>
+      <li><a href="https://github.com/taka2415" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <p class="hero-tag">ECE @ University of Washington Seattle</p>
+    <h1>Takaharu<br/>Tanaka</h1>
+    <p class="hero-desc">
+      ECE student interested in mixed-signal device design, robotics, and extended reality.
+      Researcher at UW EMIT Lab, systems engineer, and community builder. Expected graduation 2027.
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#contact">Get in touch</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/tdtanaka" target="_blank">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/taka2415" target="_blank">GitHub</a>
+      <a class="btn btn-ghost" href="mailto:ttanak@uw.edu">Email</a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Work</p>
+    <h2>Experience</h2>
+    <div class="divider"></div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jan 2026 — Present</div>
+        <div class="timeline-content">
+          <h3>Research Assistant</h3>
+          <div class="org">UW EMIT Lab</div>
+          <p>Researching Mixed Signal Simulated Bifurcation Machine at the EMIT Lab, University of Washington.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2025 — Mar 2026</div>
+        <div class="timeline-content">
+          <h3>Teaching Assistant — Digital Circuits & Systems</h3>
+          <div class="org">University of Washington ECE</div>
+          <ul>
+            <li>Supported lectures and labs for a class of 100 students</li>
+            <li>Guided students in SystemVerilog, Quartus, and ModelSim</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jun 2025 — Present</div>
+        <div class="timeline-content">
+          <h3>Freelance Systems Engineer</h3>
+          <div class="org">WeaverseLab(株) — Tokyo, Japan</div>
+          <ul>
+            <li>Lead a team of interns on two robotics projects including tele-operation for mixed reality</li>
+            <li>Participate in strategy meetings and serve as liaison with foreign agencies</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jun 2024 — Jun 2025</div>
+        <div class="timeline-content">
+          <h3>System Engineering Intern</h3>
+          <div class="org">WeaverseLab(株) — Tokyo, Japan</div>
+          <ul>
+            <li>Redesigned an open-source 9-DOF humanoid arm in Fusion 360</li>
+            <li>Implemented a Python relay streaming OSC ↔ UART at 1,000,000 baud with ≤5 ms round-trip latency, linking a Resonite metaverse avatar to the physical robot</li>
+            <li>Developed real-time inverse kinematic mapping from avatar pose data to robot joint angles</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Jun 2024 — Present</div>
+        <div class="timeline-content">
+          <h3>Translator (Japanese / English)</h3>
+          <div class="org">WeaverseLab(株) — Tokyo, Japan</div>
+          <p>Live translation and legal document translation between Japanese and English.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Selected Work</p>
+    <h2>Projects</h2>
+    <div class="divider"></div>
+
+    <div class="projects-grid">
+
+      <a class="card" href="projects/5t-ota.html">
+        <h3>5T OTA Design <span class="arrow">↗</span></h3>
+        <p>FreePDK 45nm · 1.134 GHz unity-gain BW · all specs met</p>
+        <div class="tag-row">
+          <span class="tag">Cadence Virtuoso</span>
+          <span class="tag">Analog</span>
+          <span class="tag">CMOS</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/bifurcation-machine.html">
+        <h3>Mixed Signal SBM Research <span class="arrow">↗</span></h3>
+        <p>UW EMIT Lab · hardware acceleration for combinatorial optimization</p>
+        <div class="tag-row">
+          <span class="tag">Mixed Signal</span>
+          <span class="tag">Research</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/tele-operation.html">
+        <h3>Metaverse-to-Robot Tele-op <span class="arrow">↗</span></h3>
+        <p>Resonite avatar → 9-DOF arm · Python OSC↔UART · ≤5 ms latency</p>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">Robotics</span>
+          <span class="tag">XR</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/mobility-charger.html">
+        <h3>Accessible Mobility Charger <span class="arrow">↗</span></h3>
+        <p>EWB · wheelchair charging stations for UW campus · team of 10+</p>
+        <div class="tag-row">
+          <span class="tag">Circuit Design</span>
+          <span class="tag">EWB</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">Say hello</p>
+    <h2>Contact</h2>
+    <div class="divider"></div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <a href="mailto:ttanak@uw.edu">ttanak@uw.edu</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">LinkedIn</span>
+        <a href="https://www.linkedin.com/in/tdtanaka" target="_blank">linkedin.com/in/tdtanaka</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">GitHub</span>
+        <a href="https://github.com/taka2415" target="_blank">github.com/taka2415</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Education</span>
+        <a href="#">BS ECE, UW Seattle — Class of 2027</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Location</span>
+        <a href="#">Seattle, WA</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 Takaharu Tanaka
+  </footer>
+
+</body>
+</html>

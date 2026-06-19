@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobility Charger — Takaharu Tanaka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #161616; --border: #222;
+      --accent: #00c8ff; --accent-dim: rgba(0,200,255,0.12);
+      --text: #e8e8e8; --muted: #666; --sub: #999;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a { color: var(--sub); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+    main { max-width: 760px; margin: 0 auto; padding: 8rem 2rem 6rem; }
+    .project-tag { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 2.5rem; }
+    .meta span { margin-right: 1.2rem; }
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 2.5rem 0; }
+    h2 { font-size: 1.05rem; font-weight: 500; color: var(--text); margin-bottom: 1rem; }
+    p { font-size: 0.9rem; color: var(--sub); line-height: 1.75; margin-bottom: 1rem; }
+    ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+    ul li { font-size: 0.9rem; color: var(--sub); line-height: 1.8; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .tag { font-size: 0.72rem; background: var(--accent-dim); color: var(--accent); padding: 0.2rem 0.6rem; border-radius: 3px; }
+    .role-timeline { display: flex; flex-direction: column; gap: 0; }
+    .role-item { display: grid; grid-template-columns: 130px 1fr; gap: 0 1.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--border); }
+    .role-item:last-child { border-bottom: none; }
+    .role-date { font-size: 0.78rem; color: var(--muted); }
+    .role-content h3 { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+    .role-content p { margin-bottom: 0; }
+    footer { text-align: center; padding: 2rem; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+<main>
+  <p class="project-tag">Engineers Without Borders · UW Seattle</p>
+  <h1>Accessible Mobility<br/>Device Charger</h1>
+  <div class="meta">
+    <span>Nov 2023 — Present</span>
+    <span>Seattle, WA</span>
+    <span>10+ team members</span>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    A multi-year Engineers Without Borders project to design and deploy accessible wheelchair and
+    mobility device charging stations across the UW Seattle campus. The goal is to remove a practical
+    barrier for students and visitors who rely on powered mobility devices.
+  </p>
+  <p>
+    The project involved identifying unmet campus needs, designing a cost-effective charging solution
+    that surpasses existing options, and navigating state university regulations for installing electrical
+    equipment in public spaces.
+  </p>
+
+  <div class="divider"></div>
+
+  <h2>Roles & Progression</h2>
+  <div class="role-timeline">
+    <div class="role-item">
+      <div class="role-date">Mar 2025 — Present</div>
+      <div class="role-content">
+        <h3>Project Lead</h3>
+        <p>Managing overall project direction and team of 10+ members. Driving implementation of charging stations around campus.</p>
+      </div>
+    </div>
+    <div class="role-item">
+      <div class="role-date">Sep 2024 — Apr 2025</div>
+      <div class="role-content">
+        <h3>Electrical Team Lead</h3>
+        <p>Led an electrical engineering team of 6 on the charger hardware design and prototyping.</p>
+      </div>
+    </div>
+    <div class="role-item">
+      <div class="role-date">Nov 2023 — Sep 2024</div>
+      <div class="role-content">
+        <h3>Electrical Engineering Member</h3>
+        <p>Identified campus needs, designed the initial charger concept, and created regulatory documentation for public space installation at a state university.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Skills</h2>
+  <div class="tag-row">
+    <span class="tag">Circuit Design</span>
+    <span class="tag">Power Electronics</span>
+    <span class="tag">Project Management</span>
+    <span class="tag">EWB</span>
+    <span class="tag">Accessibility</span>
+    <span class="tag">Regulatory Documentation</span>
+  </div>
+</main>
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>

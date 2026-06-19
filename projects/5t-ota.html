@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5T OTA Design — Takaharu Tanaka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --surface: #161616; --border: #222;
+      --accent: #00c8ff; --accent-dim: rgba(0,200,255,0.12);
+      --text: #e8e8e8; --muted: #666; --sub: #999;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.7; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,13,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a { color: var(--sub); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    nav a:hover { color: var(--accent); }
+    nav .back { display: flex; align-items: center; gap: 0.4rem; }
+
+    main { max-width: 760px; margin: 0 auto; padding: 8rem 2rem 6rem; }
+
+    .project-tag {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.8rem;
+    }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 2.5rem; }
+    .meta span { margin-right: 1.2rem; }
+
+    .divider { width: 100%; height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+    h2 { font-size: 1.05rem; font-weight: 500; color: var(--text); margin-bottom: 1rem; }
+
+    p { font-size: 0.9rem; color: var(--sub); line-height: 1.75; margin-bottom: 1rem; }
+
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-bottom: 1.5rem; }
+    .specs-table thead tr { border-bottom: 1px solid var(--border); }
+    .specs-table th {
+      text-align: left; padding: 0.5rem 0.8rem;
+      color: var(--muted); font-weight: 500; font-size: 0.72rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .specs-table td { padding: 0.5rem 0.8rem; color: var(--sub); border-bottom: 1px solid rgba(34,34,34,0.6); }
+    .specs-table td:last-child { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .specs-table tr:last-child td { border-bottom: none; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .tag {
+      font-size: 0.72rem; background: var(--accent-dim); color: var(--accent);
+      padding: 0.2rem 0.6rem; border-radius: 3px; letter-spacing: 0.03em;
+    }
+
+    .highlight-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px; padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+    }
+    .highlight-box p { margin-bottom: 0; }
+
+    footer { text-align: center; padding: 2rem; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="back" href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+
+<main>
+  <p class="project-tag">Analog / Mixed-Signal Design</p>
+  <h1>5-Transistor OTA</h1>
+  <div class="meta">
+    <span>Cadence Virtuoso</span>
+    <span>FreePDK 45nm</span>
+    <span>1.5 mA Steady Bias Current</span>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    Designed a 5-transistor operational transconductance amplifier (5T OTA) using the FreePDK 45nm process technology
+    in Cadence Virtuoso. The design targets key analog performance metrics: open-loop gain, output voltage swing,
+    overdrive voltage margin, and closed-loop bandwidth — without a physical layout (schematic-level design).
+  </p>
+  <p>
+    The 5T OTA topology uses a differential input pair with a current mirror load and a tail current source,
+    biased at a steady 1.5 mA. Design choices were driven by gain-bandwidth trade-offs and maximizing output swing
+    within the 45nm process constraints.
+  </p>
+
+  <div class="highlight-box">
+    <p>All specifications were met or exceeded. The design achieved a unity-gain bandwidth of <strong style="color:var(--text)">1.134 GHz</strong> and a closed-loop 3 dB bandwidth of <strong style="color:var(--text)">152.4 MHz</strong>.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>Performance Results</h2>
+  <table class="specs-table">
+    <thead>
+      <tr>
+        <th>Specification</th>
+        <th>Requirement</th>
+        <th>Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Open Loop Low Frequency Gain</td><td>10 V/V</td><td>10.12 V/V</td></tr>
+      <tr><td>OTA Output Peak-to-Peak Swing</td><td>1 V</td><td>1.501 V</td></tr>
+      <tr><td>Overdrive Voltage</td><td>V<sub>od</sub> &gt; 100 mV</td><td>✅ Met</td></tr>
+      <tr><td>Closed Loop Gain</td><td>4 V/V</td><td>4.5 V/V</td></tr>
+      <tr><td>Closed Loop Output Swing @ 100 MHz</td><td>1 V</td><td>1.005 V</td></tr>
+      <tr><td>Unity Gain Bandwidth (OTA)</td><td>—</td><td>1.134 GHz</td></tr>
+      <tr><td>3 dB Bandwidth (OTA)</td><td>—</td><td>111.9 MHz</td></tr>
+      <tr><td>Unity Gain Bandwidth (Closed Loop)</td><td>—</td><td>825.8 MHz</td></tr>
+      <tr><td>3 dB Bandwidth (Closed Loop)</td><td>—</td><td>152.4 MHz</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Process</h2>
+  <div class="tag-row">
+    <span class="tag">Cadence Virtuoso</span>
+    <span class="tag">FreePDK 45nm</span>
+    <span class="tag">5T OTA</span>
+    <span class="tag">Analog Design</span>
+    <span class="tag">CMOS</span>
+    <span class="tag">Mixed-Signal</span>
+    <span class="tag">Schematic-Level</span>
+  </div>
+</main>
+
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>
