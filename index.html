@@ -278,6 +278,24 @@
 
     .timeline + .group-label { margin-top: 3.5rem; }
 
+    .timeline-item.featured {
+      border-left: 2px solid var(--accent);
+      background: linear-gradient(90deg, var(--accent-dim), transparent 55%);
+      padding-left: 1.4rem;
+      margin-left: -1.4rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .timeline-content .read-more {
+      display: inline-block;
+      margin-top: 0.7rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .timeline-content .read-more:hover { text-decoration: underline; }
+
     .timeline-content p {
       font-size: 0.85rem;
       color: var(--sub);
@@ -441,7 +459,7 @@
     <p class="group-label">Engineering &amp; Research</p>
     <div class="timeline">
 
-      <div class="timeline-item">
+      <div class="timeline-item featured">
         <div class="timeline-date">Jul 2026 — Aug 2026</div>
         <div class="timeline-content">
           <h3>Field Application Engineering Intern</h3>
@@ -460,7 +478,11 @@
         <div class="timeline-content">
           <h3>Research Assistant</h3>
           <div class="org">UW EMIT Lab</div>
-          <p>Researching Mixed Signal Simulated Bifurcation Machine at the EMIT Lab, University of Washington. <a href="projects/bifurcation-machine.html">Read more ↗</a></p>
+          <ul>
+            <li>Researching a Mixed Signal Simulated Bifurcation Machine — a mixed-signal hardware accelerator for combinatorial optimization problems</li>
+            <li>Working across analog circuit design, digital control, and hardware/algorithm co-design</li>
+          </ul>
+          <a class="read-more" href="projects/bifurcation-machine.html">Read more ↗</a>
         </div>
       </div>
 
@@ -506,7 +528,9 @@
         <div class="timeline-content">
           <h3>Translator (Japanese / English)</h3>
           <div class="org">WeaverseLab(株) — Tokyo, Japan <span class="type">· Contract, Remote</span></div>
-          <p>Live translation and legal document translation between Japanese and English.</p>
+          <ul>
+            <li>Provide live translation and legal document translation between Japanese and English</li>
+          </ul>
         </div>
       </div>
 
@@ -520,7 +544,11 @@
         <div class="timeline-content">
           <h3>Officer</h3>
           <div class="org">Extended Reality Association at UW</div>
-          <p>Lead recruitment of new members, oversee management of ongoing projects, and spearhead new initiatives driving growth and collaboration within the organization.</p>
+          <ul>
+            <li>Lead recruitment of new members into the organization</li>
+            <li>Oversee management of ongoing projects across the association</li>
+            <li>Spearhead new initiatives driving growth and collaboration</li>
+          </ul>
         </div>
       </div>
 
@@ -529,7 +557,11 @@
         <div class="timeline-content">
           <h3>Project Lead · Electrical Team Lead</h3>
           <div class="org">Engineers Without Borders — UW Seattle</div>
-          <p>Progressed from electrical engineering member to electrical team lead (team of 6) to overall project lead, managing 10+ members on an accessible mobility device charger for campus. <a href="projects/mobility-charger.html">Read more ↗</a></p>
+          <ul>
+            <li>Progressed from electrical engineering member to electrical team lead (team of 6) to overall project lead</li>
+            <li>Manage 10+ members building an accessible mobility device charger to expand campus accessibility</li>
+          </ul>
+          <a class="read-more" href="projects/mobility-charger.html">Read more ↗</a>
         </div>
       </div>
 
