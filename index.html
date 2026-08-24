@@ -268,11 +268,29 @@
       color: var(--muted);
     }
 
+    .group-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline + .group-label { margin-top: 3.5rem; }
+
     .timeline-content p {
       font-size: 0.85rem;
       color: var(--sub);
       line-height: 1.65;
     }
+
+    .timeline-content p a {
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .timeline-content p a:hover { text-decoration: underline; }
 
     .timeline-content ul {
       margin-top: 0.4rem;
@@ -420,6 +438,7 @@
     <p class="section-label">Work</p>
     <h2>Experience</h2>
     <div class="divider"></div>
+    <p class="group-label">Engineering &amp; Research</p>
     <div class="timeline">
 
       <div class="timeline-item">
@@ -441,14 +460,14 @@
         <div class="timeline-content">
           <h3>Research Assistant</h3>
           <div class="org">UW EMIT Lab</div>
-          <p>Researching Mixed Signal Simulated Bifurcation Machine at the EMIT Lab, University of Washington.</p>
+          <p>Researching Mixed Signal Simulated Bifurcation Machine at the EMIT Lab, University of Washington. <a href="projects/bifurcation-machine.html">Read more ↗</a></p>
         </div>
       </div>
 
       <div class="timeline-item">
         <div class="timeline-date">Dec 2025 — Mar 2026</div>
         <div class="timeline-content">
-          <h3>Teaching Assistant — Digital Circuits & Systems</h3>
+          <h3>Teaching Assistant — Digital Circuits &amp; Systems</h3>
           <div class="org">University of Washington ECE <span class="type">· Part-time</span></div>
           <ul>
             <li>Supported lectures and labs for a class of 100 students</li>
@@ -491,14 +510,10 @@
         </div>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-date">Nov 2023 — Present</div>
-        <div class="timeline-content">
-          <h3>Project Lead · Electrical Team Lead</h3>
-          <div class="org">Engineers Without Borders — UW Seattle</div>
-          <p>Progressed from electrical engineering member to electrical team lead (team of 6) to overall project lead, managing 10+ members on an accessible mobility device charger for campus. <a href="projects/mobility-charger.html" style="color:var(--accent);text-decoration:none">Read more ↗</a></p>
-        </div>
-      </div>
+    </div>
+
+    <p class="group-label">Leadership &amp; Community</p>
+    <div class="timeline">
 
       <div class="timeline-item">
         <div class="timeline-date">Apr 2024 — Present</div>
@@ -506,6 +521,15 @@
           <h3>Officer</h3>
           <div class="org">Extended Reality Association at UW</div>
           <p>Lead recruitment of new members, oversee management of ongoing projects, and spearhead new initiatives driving growth and collaboration within the organization.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Nov 2023 — Present</div>
+        <div class="timeline-content">
+          <h3>Project Lead · Electrical Team Lead</h3>
+          <div class="org">Engineers Without Borders — UW Seattle</div>
+          <p>Progressed from electrical engineering member to electrical team lead (team of 6) to overall project lead, managing 10+ members on an accessible mobility device charger for campus. <a href="projects/mobility-charger.html">Read more ↗</a></p>
         </div>
       </div>
 
