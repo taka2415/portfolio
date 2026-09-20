@@ -389,6 +389,22 @@ footer {
 
 .highlight-box strong { color: var(--text); }
 
+.project main li strong { color: var(--text); font-weight: 500; }
+
+figure { margin: 1.5rem 0; }
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+figure img.on-white { background: #fff; padding: 0.5rem; }
+
+figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.5; }
+
 .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
 
 .specs-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }

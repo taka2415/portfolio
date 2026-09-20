@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FPGA Audio Visualizer — Takaharu Tanaka</title>
+  <meta name="description" content="Real-time audio amplitude visualizer on a DE1-SoC FPGA in SystemVerilog: audio codec input, selectable FIR filters, a 640-sample FIFO, and VGA output." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="FPGA Audio Visualizer | Takaharu Tanaka" />
+  <meta property="og:description" content="Real-time audio amplitude visualizer on a DE1-SoC FPGA in SystemVerilog: audio codec input, selectable FIR filters, a 640-sample FIFO, and VGA output." />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="project">
+<nav>
+  <a href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+<main>
+  <p class="project-tag">Digital Design · UW EE/CSE 371 Final Project</p>
+  <h1>FPGA Audio Visualizer</h1>
+  <div class="meta">
+    <span>University of Washington</span>
+    <span>Team of 2</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="value">640</span><span class="label">Sample FIFO window</span></div>
+    <div class="stat"><span class="value">16–256</span><span class="label">Selectable FIR size</span></div>
+    <div class="stat"><span class="value">Cyclone V</span><span class="label">DE1-SoC target</span></div>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    Open-ended final project: a real-time audio amplitude visualizer written in SystemVerilog for the DE1-SoC.
+    Microphone audio enters through the on-board audio codec, passes through a selectable averaging FIR filter,
+    and scrolls across a VGA display as a ten-second amplitude history. Switching filter sizes while audio plays
+    makes the effect of filter length directly visible.
+  </p>
+
+  <figure>
+    <img src="../images/audio-visualizer/vga-music-filters.png" alt="VGA output while music plays: unfiltered audio on the left, a 16-sample filter in the middle, and a 256-sample filter on the right, with amplitude shrinking and smoothing as the filter grows" loading="lazy" />
+    <figcaption>Music playing with no filter (oldest, left), a size-16 filter (middle), and a size-256 filter (newest, right). Red is positive amplitude, blue is negative; the bottom scale is seconds ago.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>Architecture</h2>
+  <ul>
+    <li><strong>Audio path:</strong> codec samples are read on the ready handshake and fed to parallel averaging FIR filters ranging from size 16 to 256; board switches select which output, or the unfiltered signal, is displayed</li>
+    <li><strong>Downsampling:</strong> a clock divider reduces the sample stream to a rate the eye can follow, so 640 stored samples span roughly ten seconds</li>
+    <li><strong>FIFO amplitude module:</strong> holds the last 640 samples, one per VGA column. For each pixel the video driver requests, it uses x to pick the sample and compares y against the sample magnitude, returning red above the midline for positive samples, blue below it for negative samples, and white elsewhere</li>
+    <li><strong>UI overlay:</strong> a ROM stores the pixel map for the time scale along the bottom edge, and a draw module merges it with the waveform colors</li>
+    <li><strong>Video:</strong> VGA driver on a PLL-generated 25 MHz pixel clock</li>
+  </ul>
+
+  <figure>
+    <img class="on-white" src="../images/audio-visualizer/block-diagram.png" alt="Hand-drawn top-level block diagram of the DE1-SoC design: audio codec, FIR filters, FIFO amplitude module, draw UI module with ROM, video driver with PLL, and switch and key inputs" loading="lazy" />
+    <figcaption>Top-level block diagram.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>My Contribution</h2>
+  <ul>
+    <li>Built the ROM-driven UI overlay and its draw module</li>
+    <li>Implemented user input handling for filter selection and the on-chip memory usage the project required</li>
+    <li>Found and fixed a reset bug: the UI was originally drawn once at startup, so a manual reset left it blank. Because it is hard to know when the VGA port becomes active, the fix redraws the static UI continuously instead of relying on a one-time initialization</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h2>Verification</h2>
+  <p>
+    New modules were verified with ModelSim testbenches before hardware testing on a remote DE1-SoC board.
+    The FIFO amplitude testbench covers the three display cases: a positive sample producing red, a negative
+    sample where the pixel lies beyond its magnitude producing no color, and a negative sample producing blue.
+  </p>
+
+  <figure>
+    <img src="../images/audio-visualizer/fifo-amplitude-tb.png" alt="ModelSim waveform of the FIFO amplitude testbench showing input samples, x and y pixel coordinates, and the resulting r, g, b outputs" loading="lazy" />
+    <figcaption>FIFO amplitude testbench in ModelSim.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../images/audio-visualizer/vga-noise-filter-on.png" alt="VGA output on a board with a noisy microphone: tall noise spikes across most of the history, replaced by small, smoothed amplitude in the most recent 3.5 seconds after the FIR filter is enabled" loading="lazy" />
+    <figcaption>Hardware run on a board with a noisy microphone. Enabling the FIR filter about 3.5 seconds before capture suppresses the spikes, at the cost of each spike spreading across more samples.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>Build Summary and Limitations</h2>
+  <div class="table-wrap">
+  <table class="specs-table">
+    <thead>
+      <tr><th>Item</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Device</td><td>Cyclone V 5CSEMA5F31C6</td></tr>
+      <tr><td>Toolchain</td><td>Quartus Prime 17.0 Lite</td></tr>
+      <tr><td>Registers</td><td>37,939</td></tr>
+      <tr><td>Block memory bits</td><td>28,672</td></tr>
+      <tr><td>PLLs</td><td>2</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <ul>
+    <li>An estimated 23,000 of the registers hold the 640-sample history and the filter delay lines at 24 bits per sample; moving them into block RAM is the clear next optimization</li>
+    <li>Amplitude is shown in raw sample units and is not calibrated to a dB scale</li>
+    <li>The display shows time-domain amplitude only; a frequency-domain view would need an FFT stage</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Skills</h2>
+  <div class="tag-row">
+    <span class="tag">SystemVerilog</span>
+    <span class="tag">FPGA</span>
+    <span class="tag">DE1-SoC</span>
+    <span class="tag">Quartus Prime</span>
+    <span class="tag">ModelSim</span>
+    <span class="tag">FIR Filter</span>
+    <span class="tag">VGA</span>
+    <span class="tag">FIFO</span>
+  </div>
+</main>
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>

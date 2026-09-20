@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AC to DC Boost Converter — Takaharu Tanaka</title>
+  <meta name="description" content="Adjustable 10 to 20 V DC supply built from a 7.5 Vrms source using a bridge rectifier, 555-clocked boost converter, and zener-bounded regulator. Simulated and bench tested." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AC to DC Voltage Amplifying Converter | Takaharu Tanaka" />
+  <meta property="og:description" content="Adjustable 10 to 20 V DC supply built from a 7.5 Vrms source using a bridge rectifier, 555-clocked boost converter, and zener-bounded regulator. Simulated and bench tested." />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="project">
+<nav>
+  <a href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+<main>
+  <p class="project-tag">Power Electronics · UW EE 331 Final Project</p>
+  <h1>AC to DC Voltage<br/>Amplifying Converter</h1>
+  <div class="meta">
+    <span>University of Washington</span>
+    <span>Team of 3</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="value">7.5 V<sub>rms</sub></span><span class="label">AC input</span></div>
+    <div class="stat"><span class="value">9.2–19.9 V</span><span class="label">Measured DC range</span></div>
+    <div class="stat"><span class="value">≤80 mV</span><span class="label">Ripple at 10 kΩ, 20 kΩ</span></div>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    Designed, simulated, and breadboarded a variable DC supply that takes ±7.5 V<sub>rms</sub> from a lab
+    transformer and produces a DC output adjustable from 10 V to 20 V with a single potentiometer, at up to
+    1 mA of load current. Because the rectified input peaks near 10 V, reaching 20 V requires a boost stage
+    rather than a linear regulator alone.
+  </p>
+
+  <figure>
+    <img class="on-white" src="../images/ac-dc-converter/block-diagram.png" alt="Hand-drawn block diagram: bridge rectifier, low-pass filter, op-amp buffered divider feeding a 555 timer, boost circuit, voltage regulator, output filter" loading="lazy" />
+    <figcaption>System block diagram. The 555 clock is powered from the rectified rail through an op-amp buffered divider.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>Requirements</h2>
+  <ul>
+    <li>Input of ±7.5 VAC from the laboratory transformer</li>
+    <li>Output continuously adjustable from +10.0 to +20.0 VDC by one potentiometer, delivering 0 to 1.0 mA</li>
+    <li>Rectifier and capacitive filter producing roughly 10 V unregulated with under 1.0 V ripple</li>
+    <li>Boost topology: transistor-switched inductor, catch diode, and output capacitor, all within rated limits</li>
+    <li>Switch clocked between 10 kHz and 100 kHz by an on-board 555 timer, with a function generator used only as a reference</li>
+    <li>Under 100 mV ripple on the DC output</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h2>Design</h2>
+  <ul>
+    <li><strong>Rectifier and filter:</strong> full-wave bridge of four 1N4007 diodes, chosen over half-wave for lower ripple, into a 1 mF bulk capacitor with a 10 µF capacitor in parallel</li>
+    <li><strong>Boost stage:</strong> 100 mH inductor switched by a 2N7000 NMOS, 1N4148 catch diode, 0.66 mF output capacitor. With about 8.6 V after two diode drops and a duty cycle of D ≈ 0.8, the ideal output V<sub>in</sub> / (1 − D) ≈ 43 V leaves ample headroom above 20 V</li>
+    <li><strong>Clock:</strong> 555 timer in astable mode, so the supply needs no external clock. R<sub>A</sub> = 43 kΩ, R<sub>B</sub> = 14.7 kΩ, C = 1 nF for a calculated 19.9 kHz at 79.7% duty</li>
+    <li><strong>Regulation and adjustment:</strong> reverse-biased zener strings bound the output. One 1N4744A (15 V) plus two 1N4732A (4.7 V) clamp the top at 24.4 V to protect the load; two 1N4732A set a 9.4 V floor, and a potentiometer in series with the floor string raises the output continuously above it</li>
+    <li><strong>Output filtering:</strong> ceramic capacitor for high-frequency switching noise alongside the electrolytic bulk capacitor</li>
+  </ul>
+
+  <figure>
+    <img class="on-white" src="../images/ac-dc-converter/schematic.png" alt="Multisim schematic of the full converter: bridge rectifier, filter capacitors, 555 astable, 2N7000 boost stage with 100 mH inductor, zener regulator strings, and load" loading="lazy" />
+    <figcaption>Full simulation schematic.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>Bench Results</h2>
+  <p>
+    Built on a breadboard and measured on a Keysight DSOX1204G at three loads, with the potentiometer at each
+    end of its travel. Simulation met every specification; the hardware came close but did not fully match it.
+  </p>
+  <div class="table-wrap">
+  <table class="specs-table">
+    <thead>
+      <tr><th>Load</th><th>Pot setting</th><th>Output</th><th>Ripple (pk-pk)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>10 kΩ</td><td>Minimum</td><td>9.16 V</td><td>60 mV</td></tr>
+      <tr><td>10 kΩ</td><td>Maximum</td><td>19.32 V</td><td>80 mV</td></tr>
+      <tr><td>20 kΩ</td><td>Minimum</td><td>9.22 V</td><td>80 mV</td></tr>
+      <tr><td>20 kΩ</td><td>Maximum</td><td>19.68 V</td><td>80 mV</td></tr>
+      <tr><td>100 kΩ</td><td>Minimum</td><td>9.26 V</td><td>80 mV</td></tr>
+      <tr><td>100 kΩ</td><td>Maximum</td><td>19.87 V</td><td>150 mV</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <figure>
+    <img src="../images/ac-dc-converter/scope-20v-10k.jpg" alt="Oscilloscope capture at 10 kΩ load, maximum setting: 19.32 V output with 80 mV peak-to-peak ripple, rectifier waveform on channel 1" loading="lazy" />
+    <figcaption>10 kΩ load at the maximum setting: 19.32 V with 80 mV ripple (channel 2). Channel 1 is the rectified input.</figcaption>
+  </figure>
+
+  <h2>What Fell Short and Why</h2>
+  <ul>
+    <li><strong>Top of range:</strong> the maximum output reached 19.3 to 19.9 V depending on load, up to 0.7 V under the 20 V target at the heaviest load. The sag with load current likely comes from the output impedance of the open-loop zener regulator; closing the loop on duty cycle would hold the top end</li>
+    <li><strong>Ripple at light load:</strong> 150 mV at 100 kΩ and maximum output, over the 100 mV limit. More output capacitance, a higher switching frequency, and shorter breadboard wiring are the direct fixes</li>
+    <li><strong>Clock frequency:</strong> measured 13.7 kHz at 82.3% duty against a calculated 19.9 kHz. Still inside the 10 to 100 kHz window, but the 1 nF timing capacitor is small enough that breadboard parasitics and component tolerance shift the frequency noticeably</li>
+  </ul>
+
+  <figure>
+    <img src="../images/ac-dc-converter/scope-555-clock.jpg" alt="Oscilloscope capture of the 555 timer gate drive: 13.679 kHz at 82.32 percent duty cycle" loading="lazy" />
+    <figcaption>555 gate drive: 13.68 kHz at 82.3% duty.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Skills</h2>
+  <div class="tag-row">
+    <span class="tag">Boost Converter</span>
+    <span class="tag">Power Electronics</span>
+    <span class="tag">555 Timer</span>
+    <span class="tag">Zener Regulation</span>
+    <span class="tag">Multisim</span>
+    <span class="tag">Oscilloscope</span>
+    <span class="tag">Breadboard Prototyping</span>
+  </div>
+</main>
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>
