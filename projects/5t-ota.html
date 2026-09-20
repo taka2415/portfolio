@@ -74,6 +74,53 @@
 
   <div class="divider"></div>
 
+  <h2>Design Process</h2>
+  <p>
+    The flow below is shown on a second design point of the same topology: a 1.1 V supply driving a 100 fF load
+    from a 10 µA reference, optimized for bandwidth rather than gain.
+  </p>
+  <ul>
+    <li><strong>Hand calculation:</strong> sized every device from square-law equations, starting from the DC gain target g<sub>m</sub>(r<sub>o2</sub> ∥ r<sub>o4</sub>), the input common-mode range, the output swing, and an overdrive budget of about 100 mV per device</li>
+    <li><strong>Initial simulation:</strong> ran DC, AC, and transient analyses on the hand-sized circuit to find where short-channel behavior at 45 nm departed from the square-law estimates</li>
+    <li><strong>Constrained optimization:</strong> set up ADE Assembler to tune widths against DC gain, gain-bandwidth, and 3 dB bandwidth targets, with every transistor constrained to stay in saturation and the output swing held as a spec</li>
+    <li><strong>Verification:</strong> swept differential-mode and common-mode gain from 1 Hz to 4 GHz and checked output swing and DC level in transient at 10 MHz</li>
+  </ul>
+
+  <figure>
+    <img src="../images/5t-ota/optimizer-setup.png" alt="ADE Assembler outputs table: DC gain, operating region of all six transistors, gain-bandwidth product, 3 dB bandwidth, and peak-to-peak output swing, each with a spec and weight" loading="lazy" />
+    <figcaption>ADE Assembler optimization setup. The region checks keep all six devices in saturation while the optimizer trades gain against bandwidth.</figcaption>
+  </figure>
+
+  <div class="table-wrap">
+  <table class="specs-table">
+    <thead>
+      <tr><th>Optimized design point</th><th>Simulated</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Supply / load</td><td>1.1 V / 100 fF</td></tr>
+      <tr><td>Reference / tail current</td><td>10 µA / ≈ 0.6 mA</td></tr>
+      <tr><td>Differential DC gain</td><td>15.0 dB</td></tr>
+      <tr><td>3 dB bandwidth (dominant pole)</td><td>520 MHz</td></tr>
+      <tr><td>Unity-gain bandwidth</td><td>≈ 2.9 GHz</td></tr>
+      <tr><td>Common-mode gain</td><td>−24.5 dB</td></tr>
+      <tr><td>CMRR</td><td>≈ 39.5 dB</td></tr>
+      <tr><td>Output swing @ 10 MHz</td><td>0.12 V to 1.08 V</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <figure>
+    <img src="../images/5t-ota/dm-gain.png" alt="Differential-mode gain versus frequency from 1 Hz to 4 GHz: flat at 15 dB, 3 dB point marked at 520 MHz, single-pole rolloff crossing 0 dB near 2.9 GHz" loading="lazy" />
+    <figcaption>Differential-mode gain, 1 Hz to 4 GHz. The marker sits at the 3 dB point, 520 MHz; the clean 20 dB/decade rolloff indicates a single dominant pole at the output node.</figcaption>
+  </figure>
+
+  <figure>
+    <img class="narrow" src="../images/5t-ota/transient.png" alt="Transient simulation at 10 MHz: output swinging from about 0.12 V to 1.08 V on a 1.1 V supply, with the input sinusoid overlaid" loading="lazy" />
+    <figcaption>Transient at 10 MHz. The output swings nearly rail to rail on the 1.1 V supply; the flattened peaks show the onset of clipping as devices leave saturation.</figcaption>
+  </figure>
+
+  <div class="divider"></div>
+
   <h2>Tools & Process</h2>
   <div class="tag-row">
     <span class="tag">Cadence Virtuoso</span>

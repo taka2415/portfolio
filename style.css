@@ -403,6 +403,12 @@ figure img {
 
 figure img.on-white { background: #fff; padding: 0.5rem; }
 
+figure img.narrow { max-width: 520px; margin: 0 auto; }
+
+figure .img-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+
+figure .img-scroll img { width: 1100px; max-width: none; border: none; border-radius: 0; }
+
 figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.5; }
 
 .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
