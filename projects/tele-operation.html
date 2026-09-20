@@ -47,9 +47,10 @@
   </figure>
 
   <figure>
-    <div class="video">
-      <iframe src="https://www.youtube-nocookie.com/embed/6GcNqUaSI2I" title="WeaverseLab demo video: avatar work with the tele-operated robot" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
+    <a class="video" href="https://www.youtube.com/watch?v=6GcNqUaSI2I" target="_blank" rel="noopener" data-yt="6GcNqUaSI2I" aria-label="Play the WeaverseLab demo video">
+      <img src="https://i.ytimg.com/vi/6GcNqUaSI2I/maxresdefault.jpg" alt="Video thumbnail: the tele-operated arm and avatar display at the WeaverseLab booth" loading="lazy" />
+      <span class="play" aria-hidden="true"></span>
+    </a>
     <figcaption>Demo video from WeaverseLab (Japanese). <a href="https://www.youtube.com/watch?v=6GcNqUaSI2I" target="_blank" rel="noopener">Watch on YouTube ↗</a></figcaption>
   </figure>
 
@@ -76,6 +77,20 @@
     <span class="tag">Mixed Reality</span>
   </div>
 </main>
+<script>
+  // Swap the thumbnail for the player on click; without JS the link opens YouTube.
+  document.querySelectorAll('a.video[data-yt]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      var box = document.createElement('div');
+      box.className = 'video';
+      box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + el.dataset.yt +
+        '?autoplay=1&rel=0" title="WeaverseLab demo video" referrerpolicy="strict-origin-when-cross-origin" ' +
+        'allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>';
+      el.replaceWith(box);
+    });
+  });
+</script>
 <footer>&copy; 2026 Takaharu Tanaka</footer>
 </body>
 </html>
