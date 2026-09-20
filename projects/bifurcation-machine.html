@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mixed Signal SBM — Takaharu Tanaka</title>
-  <meta name="description" content="Research at the UW EMIT Lab on a mixed-signal hardware accelerator for combinatorial optimization." />
+  <title>Simulated Bifurcation on Edge GPUs — Takaharu Tanaka</title>
+  <meta name="description" content="Research at the UW EMIT Lab: benchmarking the ballistic simulated bifurcation solver on an NVIDIA Jetson Orin Nano across INT8 to FP64 as a baseline and design reference for a mixed-signal Ising accelerator." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Mixed Signal Simulated Bifurcation Machine | Takaharu Tanaka" />
-  <meta property="og:description" content="Research at the UW EMIT Lab on a mixed-signal hardware accelerator for combinatorial optimization." />
+  <meta property="og:url" content="https://taka2415.github.io/portfolio/projects/bifurcation-machine.html" />
+  <meta property="og:title" content="Simulated Bifurcation on Edge GPUs | Takaharu Tanaka" />
+  <meta property="og:description" content="Research at the UW EMIT Lab: benchmarking the ballistic simulated bifurcation solver on an NVIDIA Jetson Orin Nano across INT8 to FP64 as a baseline and design reference for a mixed-signal Ising accelerator." />
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,45 +21,84 @@
   <a href="../index.html">Takaharu Tanaka</a>
 </nav>
 <main>
-  <p class="project-tag">Research — UW EMIT Lab</p>
-  <h1>Mixed Signal Simulated<br/>Bifurcation Machine</h1>
+  <p class="project-tag">Research · UW EMIT Lab</p>
+  <h1>Simulated Bifurcation<br/>on Edge GPUs</h1>
   <div class="meta">
     <span>Sep 2025 — Present</span>
     <span>University of Washington</span>
-    <span>EMIT Lab</span>
+    <span>Research Assistant</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="value">100–4500</span><span class="label">Node MAXCUT / QUBO instances</span></div>
+    <div class="stat"><span class="value">INT8–FP64</span><span class="label">Precision sweep</span></div>
+    <div class="stat"><span class="value">Orin Nano</span><span class="label">NVIDIA Jetson target</span></div>
   </div>
 
   <h2>Overview</h2>
   <p>
-    Research assistant at the UW EMIT (Emerging Mixed-signal Integrated circuit Technology) Lab,
-    working on a Mixed Signal Simulated Bifurcation Machine (SBM) — a hardware accelerator
-    for solving combinatorial optimization problems.
+    The EMIT (Emerging Mixed-signal Integrated circuit Technology) Lab develops mixed-signal accelerators for
+    combinatorial optimization, including a silicon-proven simulated bifurcation machine in 180 nm CMOS.
+    Simulated bifurcation solves Ising-model problems by integrating the classical dynamics of a network of
+    Kerr-nonlinear parametric oscillators, whose bifurcation drives spins toward a low-energy configuration.
   </p>
   <p>
-    Simulated Bifurcation is an algorithm inspired by quantum adiabatic optimization that maps
-    Ising-model problems to a network of coupled oscillators. Implementing this in mixed-signal
-    hardware allows for significant speed and energy advantages over purely digital or software-based solvers.
+    My work characterizes the algorithm on an edge GPU, as a software baseline and a design reference for the
+    hardware effort.
   </p>
 
   <div class="highlight-box">
-    <p>First-author manuscript on GPU benchmarking of simulated bifurcation, with 2 co-authors, submitted to <strong>IEEE Transactions on Emerging Topics in Computing</strong> in Aug 2026. Currently under review; title withheld until a decision.</p>
+    <p>First-author manuscript on GPU benchmarking of simulated bifurcation, with two co-authors, submitted to <strong>IEEE Transactions on Emerging Topics in Computing</strong> (Aug 2026). Under review; title withheld until a decision.</p>
   </div>
 
   <div class="divider"></div>
 
-  <h2>Focus Areas</h2>
-  <p>Mixed-signal implementation of coupled oscillator networks, analog compute primitives for optimization, and hardware/algorithm co-design for Ising-model solvers.</p>
+  <h2>Benchmarking Framework</h2>
+  <ul>
+    <li>Built a PyTorch benchmarking framework for the ballistic simulated bifurcation solver on an NVIDIA Jetson Orin Nano, targeting MAXCUT and QUBO instances from 100 to 4500 nodes</li>
+    <li>Swept numeric precision (INT8, FP16, FP32, FP64) across problem sizes, measuring per-iteration latency, time-to-solution, and solution quality against a shared reference set over multiple seeds per configuration</li>
+    <li>Compared edge-GPU execution against CPU execution of the same solver to characterize where GPU offload pays off</li>
+    <li>Profiled kernel-level metrics, including memory bandwidth utilization and launch overhead, to explain where each precision saturates</li>
+  </ul>
+
+  <h2>Measurement Methodology</h2>
+  <ul>
+    <li>Designed the measurement procedure for reproducibility across JetPack power modes: locked GPU clocks, warm-up runs, thermal-throttle guarding, explicit TF32 control, and multi-seed statistics</li>
+    <li>Identified and fixed an integrator synchronization bug and a coupling-parameter error in the solver, then re-collected all timing data under the corrected implementation</li>
+    <li>Wrote the data-analysis and plotting pipeline, including best-fit model selection (linear, quadratic, saturating power law) for scaling curves</li>
+    <li>Released a public code and data artifact repository with documented provenance for every result series</li>
+  </ul>
+
+  <h2>Link to the Mixed-Signal Hardware</h2>
+  <ul>
+    <li>Analyzed the lab's 180 nm mixed-signal simulated bifurcation accelerator to align the GPU solver's formulation with the hardware implementation: discretized ballistic update, coupling normalization, and time-step selection</li>
+    <li>Mapped the numeric-precision results onto mixed-signal design constraints, using the INT8 through FP64 sweep as a proxy for the DAC/ADC resolution and analog noise budget a hardware implementation must tolerate</li>
+  </ul>
+
+  <h2>Writing</h2>
+  <ul>
+    <li>Drafted the full manuscript in IEEE format, managed the bibliography, and coordinated revisions with two co-authors</li>
+  </ul>
 
   <div class="divider"></div>
 
-  <h2>Tools & Topics</h2>
+  <h2>Focus Areas</h2>
+  <p>Hardware/algorithm co-design for Ising-model solvers, low-precision numerics for optimization, and edge-GPU benchmarking methodology.</p>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Skills</h2>
   <div class="tag-row">
-    <span class="tag">Mixed Signal</span>
-    <span class="tag">Analog Compute</span>
-    <span class="tag">Ising Model</span>
-    <span class="tag">Hardware Acceleration</span>
-    <span class="tag">EMIT Lab</span>
-    <span class="tag">Research</span>
+    <span class="tag">PyTorch</span>
+    <span class="tag">CUDA Profiling</span>
+    <span class="tag">Jetson Orin Nano</span>
+    <span class="tag">JetPack 6.x</span>
+    <span class="tag">Mixed-Precision Numerics</span>
+    <span class="tag">Ising / QUBO</span>
+    <span class="tag">Combinatorial Optimization</span>
+    <span class="tag">Reproducible Benchmarking</span>
+    <span class="tag">Scientific Writing</span>
+    <span class="tag">Git</span>
   </div>
 </main>
 <footer>&copy; 2026 Takaharu Tanaka</footer>

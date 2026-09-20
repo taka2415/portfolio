@@ -6,6 +6,7 @@
   <title>Takaharu Tanaka — ECE @ UW</title>
   <meta name="description" content="ECE student at the University of Washington focused on mixed-signal and analog design. Research assistant at the UW EMIT Lab, former Texas Instruments FAE intern." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://taka2415.github.io/portfolio/" />
   <meta property="og:title" content="Takaharu Tanaka" />
   <meta property="og:description" content="ECE student at the University of Washington focused on mixed-signal and analog design. Research assistant at the UW EMIT Lab, former Texas Instruments FAE intern." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -36,6 +37,7 @@
     </p>
     <div class="hero-links">
       <a class="btn btn-primary" href="#contact">Get in touch</a>
+      <a class="btn btn-ghost" href="Takaharu_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
       <a class="btn btn-ghost" href="https://www.linkedin.com/in/tdtanaka" target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn btn-ghost" href="https://github.com/taka2415" target="_blank" rel="noopener">GitHub</a>
       <a class="btn btn-ghost" href="mailto:ttanak@uw.edu">Email</a>
@@ -56,9 +58,9 @@
           <h3>Field Application Engineering Intern</h3>
           <div class="org-line"><span class="org">Texas Instruments — Osaka, Japan</span> <span class="type">· Internship</span></div>
           <ul>
-            <li>Created a system-level block diagram to meet a customer&rsquo;s application requirements</li>
+            <li>Created a system-level block diagram mapping a customer&rsquo;s application requirements onto a device solution</li>
             <li>Joined business unit engineers on a customer site visit to gather requirements for an upcoming device and relay feedback for product improvement</li>
-            <li>Performed lab characterization of an IC&rsquo;s thermal response</li>
+            <li>Characterized an IC&rsquo;s thermal response from room temperature to 160 °C using an oscilloscope and thermal chamber</li>
             <li>Analyzed a consumer electronics USB power delivery implementation to estimate current and interface requirements for future designs</li>
           </ul>
         </div>
@@ -70,8 +72,10 @@
           <h3>Research Assistant</h3>
           <div class="org-line"><span class="org">UW EMIT Lab</span></div>
           <ul>
-            <li>Researching a Mixed Signal Simulated Bifurcation Machine — a mixed-signal hardware accelerator for combinatorial optimization problems</li>
             <li>First author of a manuscript on GPU benchmarking of simulated bifurcation, submitted to IEEE Transactions on Emerging Topics in Computing (Aug 2026, under review)</li>
+            <li>Built a PyTorch benchmarking framework for the ballistic simulated bifurcation solver on an NVIDIA Jetson Orin Nano, covering MAXCUT and QUBO instances from 100 to 4500 nodes across INT8, FP16, FP32, and FP64</li>
+            <li>Designed a reproducible measurement methodology (locked GPU clocks, warm-up runs, thermal-throttle guarding, multi-seed statistics) and profiled kernel-level metrics to explain where each precision saturates</li>
+            <li>Aligned the GPU solver with the lab&rsquo;s silicon-proven 180 nm mixed-signal accelerator, using the precision sweep as a proxy for DAC/ADC resolution and analog noise budget</li>
           </ul>
           <a class="read-more" href="projects/bifurcation-machine.html">Read more ↗</a>
         </div>
@@ -221,11 +225,13 @@
       </a>
 
       <a class="card" href="projects/bifurcation-machine.html">
-        <h3>Mixed Signal Bifurcation Machine <span class="arrow">↗</span></h3>
-        <p>Researching a mixed-signal hardware accelerator for combinatorial optimization at the UW EMIT Lab, spanning analog compute and hardware/algorithm co-design.</p>
+        <h3>Simulated Bifurcation on Edge GPUs <span class="arrow">↗</span></h3>
+        <p>Benchmarked the ballistic simulated bifurcation solver on an NVIDIA Jetson Orin Nano across INT8 to FP64 precision and 100 to 4500 node MAXCUT and QUBO instances, as a baseline and design reference for the UW EMIT Lab&rsquo;s mixed-signal Ising accelerator.</p>
         <div class="tag-row">
-          <span class="tag">Mixed Signal</span>
-          <span class="tag">Analog Compute</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">CUDA</span>
+          <span class="tag">Jetson Orin Nano</span>
+          <span class="tag">Ising / QUBO</span>
           <span class="tag">Research</span>
         </div>
       </a>
