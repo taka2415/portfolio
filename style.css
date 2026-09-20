@@ -484,8 +484,9 @@ figcaption { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; line-h
 /* RESPONSIVE */
 @media (max-width: 640px) {
   nav { padding: 1rem 1.25rem; }
-  nav ul { gap: 1rem; }
-  nav ul a { font-size: 0.75rem; letter-spacing: 0.04em; }
+  nav { padding: 1rem; }
+  nav ul { gap: 0.75rem; }
+  nav ul a { font-size: 0.68rem; letter-spacing: 0.02em; }
   .timeline-item { grid-template-columns: 1fr; gap: 0.3rem; }
   .projects-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
