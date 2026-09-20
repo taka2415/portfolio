@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5-Stage Pipelined CPU — Takaharu Tanaka</title>
+  <meta name="description" content="5-stage pipelined ARM CPU in SystemVerilog with data forwarding and accelerated branch handling, verified at gate level in ModelSim." />
+  <meta name="project:dates" content="Sep 2025 – Nov 2025" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://taka2415.github.io/portfolio/projects/pipelined-cpu.html" />
+  <meta property="og:title" content="5-Stage Pipelined CPU | Takaharu Tanaka" />
+  <meta property="og:description" content="5-stage pipelined ARM CPU in SystemVerilog with data forwarding and accelerated branch handling, verified at gate level in ModelSim." />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body class="project">
+<nav>
+  <a href="../index.html">← Back</a>
+  <a href="../index.html">Takaharu Tanaka</a>
+</nav>
+<main>
+  <p class="project-tag">Computer Architecture · Digital Design</p>
+  <h1>5-Stage Pipelined CPU</h1>
+  <div class="meta">
+    <span>University of Washington</span>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><span class="value">5 stages</span><span class="label">IF · ID · EX · MEM · WB</span></div>
+    <div class="stat"><span class="value">64-bit ARM</span><span class="label">Instruction set</span></div>
+    <div class="stat"><span class="value">11</span><span class="label">Instructions</span></div>
+  </div>
+
+  <h2>Overview</h2>
+  <p>
+    Designed and implemented a 64-bit, 5-stage pipelined ARM CPU in SystemVerilog, with instruction fetch,
+    decode, execute, memory, and write-back stages separated by pipeline registers. It builds on a register file, ALU, and
+    single-cycle CPU designed earlier in the same series, then converted to a pipeline with full data forwarding and one
+    delay slot after each load and branch.
+  </p>
+  <p>
+    The design goal was to keep the pipeline full: resolve data and control hazards in hardware so that stalls
+    are the exception rather than the rule.
+  </p>
+
+  <div class="divider"></div>
+
+  <h2>Design</h2>
+  <ul>
+    <li><strong>Data forwarding:</strong> both the ALU result and the data memory output act as forwarding sources, and forwarded values feed every consumer of register data: the ALU, the branch logic, and the memory write path. Dependent instructions run back to back without waiting for write-back</li>
+    <li><strong>Accelerated branch handling:</strong> branches are resolved early enough that a single delay slot covers them, so no instructions are flushed; the branch logic receives forwarded operands so a compare can depend on the instruction just ahead of it</li>
+    <li><strong>Load handling:</strong> one delay slot after each load, consistent with the branch behavior</li>
+    <li><strong>Forwarding corner cases:</strong> register 31 always reads as zero, so writes to it must never be forwarded; instructions that do not write a register must not trigger forwarding; and the destination register sits in different instruction fields depending on the format</li>
+  </ul>
+
+  <h2>Instruction Set</h2>
+  <div class="table-wrap">
+  <table class="specs-table">
+    <thead>
+      <tr><th>Class</th><th>Instructions</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Arithmetic</td><td>ADDI, ADDS, SUBS</td></tr>
+      <tr><td>Logic and shift</td><td>AND, EOR, LSR</td></tr>
+      <tr><td>Memory</td><td>LDUR, STUR</td></tr>
+      <tr><td>Branch</td><td>B, B.LT, CBZ</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>
+    ADDS and SUBS set the condition flags that B.LT tests (negative not equal to overflow), so flag state has to
+    stay consistent with the forwarded data path. B, B.LT, and CBZ each execute one delay-slot instruction, and
+    a value loaded by LDUR is not available to the instruction immediately after it.
+  </p>
+
+  <h2>Verification</h2>
+  <ul>
+    <li>Verified functional correctness at gate level through cycle-accurate simulation in ModelSim</li>
+    <li>Ran instruction-sequence test programs and checked the final register state</li>
+  </ul>
+
+  <div class="divider"></div>
+
+  <h2>Tools & Skills</h2>
+  <div class="tag-row">
+    <span class="tag">SystemVerilog</span>
+    <span class="tag">ModelSim</span>
+    <span class="tag">64-bit ARM</span>
+    <span class="tag">Pipelining</span>
+    <span class="tag">Delay Slots</span>
+    <span class="tag">Data Forwarding</span>
+    <span class="tag">Hazard Handling</span>
+    <span class="tag">Computer Architecture</span>
+  </div>
+</main>
+<footer>&copy; 2026 Takaharu Tanaka</footer>
+</body>
+</html>
